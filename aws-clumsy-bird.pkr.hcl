@@ -50,3 +50,20 @@ build {
 
 }
 
+source "amazon-ebs" "ubuntu" {
+  region                  = var.region
+  instance_type           = var.instance_type
+  ami_name                = "${var.ami_prefix}-${var.timestamp}"
+  ami_regions             = var.ami_regions
+  tags                    = var.tags
+  source_ami_filter {
+    filters = {
+      name                = "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"
+      virtualization-type = "hvm"
+      root-device-type     = "ebs"
+    }
+    most_recent = true
+    owners      = ["099720109477"] # Canonical
+  }
+  ssh_username = "ubuntu"
+}
